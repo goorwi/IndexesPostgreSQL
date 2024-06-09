@@ -10,7 +10,7 @@ namespace IndexesPostgreSQL
 {
     public partial class LessonForm : Form
     {
-        private Dictionary<string, string> lessons = new Dictionary<string, string>()
+        private readonly Dictionary<string, string> lessons = new Dictionary<string, string>()
         {
             { "Введение", "introduction" },
             { "Сканирование", "scan" },
@@ -34,7 +34,7 @@ namespace IndexesPostgreSQL
         private Button nextButton;
         private bool isMenuVisible = false;
 
-        string path = Directory.GetCurrentDirectory().Replace("bin\\Debug", "Lessons\\");
+        readonly string path = Directory.GetCurrentDirectory().Replace("bin\\Debug", "Lessons\\");
         string lessonType;
         public LessonForm(string LessonType)
         {
@@ -92,9 +92,9 @@ namespace IndexesPostgreSQL
                 ColumnCount = 3,
                 RowCount = 1
             };
-            navigationPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
-            navigationPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
-            navigationPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            _ = navigationPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            _ = navigationPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            _ = navigationPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
 
             // Navigation buttons
             prevButton = new Button
@@ -169,7 +169,7 @@ namespace IndexesPostgreSQL
             if (selectedIndex >= 0)
             {
                 // Here, you would load the actual lesson content based on the selected index
-                lessons.TryGetValue(lessonsListBox.Items[selectedIndex].ToString(), out lessonType);
+                _ = lessons.TryGetValue(lessonsListBox.Items[selectedIndex].ToString(), out lessonType);
                 lessonBrowser.Navigate(path + lessonType + ".html");
                 Text = $"{lessonsListBox.Items[selectedIndex]}";
 
@@ -226,18 +226,42 @@ namespace IndexesPostgreSQL
             {
                 case "simple":
                     {
+                        var tree = new BTreeEmulator("Простой индекс");
+                        tree.Show();
+                        tree.FormClosing += (s, arg) =>
+                        {
+                            this.Show();
+                        };
                         break;
                     }
                 case "complex":
                     {
+                        var tree = new BTreeEmulator("Составной индекс");
+                        tree.Show();
+                        tree.FormClosing += (s, arg) =>
+                        {
+                            this.Show();
+                        };
                         break;
                     }
                 case "partial":
                     {
+                        var tree = new BTreeEmulator("Частичный индекс");
+                        tree.Show();
+                        tree.FormClosing += (s, arg) =>
+                        {
+                            this.Show();
+                        };
                         break;
                     }
                 case "included":
                     {
+                        var tree = new BTreeEmulator("Включённый индекс");
+                        tree.Show();
+                        tree.FormClosing += (s, arg) =>
+                        {
+                            this.Show();
+                        };
                         break;
                     }
                 default:
@@ -257,11 +281,6 @@ namespace IndexesPostgreSQL
             }
         }
 
-        private void Test_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void NextButton_Click(object sender, EventArgs e)
         {
             // Navigate to the next lesson
@@ -270,6 +289,5 @@ namespace IndexesPostgreSQL
                 lessonsListBox.SelectedIndex++;
             }
         }
-
     }
 }

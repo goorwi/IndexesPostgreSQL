@@ -46,6 +46,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BTree\BTreeEmulator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BTree\BTreeEmulator.Designer.cs">
+      <DependentUpon>BTreeEmulator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BTree\BTreeStructure\BaseTree.cs" />
+    <Compile Include="BTree\BTreeStructure\BTree.cs" />
+    <Compile Include="BTree\BTreeStructure\ITree.cs" />
+    <Compile Include="BTree\BTreeStructure\Node.cs" />
+    <Compile Include="BTree\BTreeStructure\NodeInfo.cs" />
+    <Compile Include="BTree\DrawBox\DrawBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BTree\DrawBox\DrawBox.Designer.cs">
+      <DependentUpon>DrawBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BTree\DrawBox\GeometryHelper.cs" />
+    <Compile Include="BTree\DrawBox\Position.cs" />
+    <Compile Include="BTree\DrawBox\TreeConfiguration.cs" />
+    <Compile Include="BTree\Indexes\ComplexIndexValue.cs" />
+    <Compile Include="BTree\Indexes\IncludedIndexValue.cs" />
+    <Compile Include="BTree\Indexes\PartialIndexValue.cs" />
+    <Compile Include="BTree\Indexes\SimpleIndexValue.cs" />
     <Compile Include="LessonForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,7 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Debug\" />
-    <Folder Include="BTree\" />
     <Folder Include="Lessons\imgs\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
