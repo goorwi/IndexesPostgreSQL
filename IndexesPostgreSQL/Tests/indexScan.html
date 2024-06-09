@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>“ест по Index Scan, Bitmap Index Scan и Index Only Scan в PostgreSQL</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .question h3 {
+            margin-bottom: 10px;
+        }
+
+        .question label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .submit-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>“ест по Index Scan, Bitmap Index Scan и Index Only Scan в PostgreSQL</h1>
+
+        <form id="quizForm">
+            <div class="question">
+                <h3>1. „то такое Index Scan?</h3>
+                <label><input type="radio" name="q1" value="a"> ћетод доступа к данным, при котором сервер базы данных использует последовательное сканирование таблицы.</label>
+                <label><input type="radio" name="q1" value="b"> ћетод доступа к данным, при котором сервер базы данных использует индекс дл€ быстрого поиска нужных строк в таблице.</label>
+                <label><input type="radio" name="q1" value="c"> ћетод доступа к данным, при котором используютс€ битовые карты дл€ комбинировани€ результатов нескольких сканирований индексов.</label>
+                <label><input type="radio" name="q1" value="d"> ћетод доступа к данным, при котором используетс€ только индекс без обращени€ к таблице.</label>
+            </div>
+
+            <div class="question">
+                <h3>2.  акой запрос приведет к использованию Index Scan?</h3>
+                <label><input type="radio" name="q2" value="a"> SELECT * FROM employees WHERE last_name = 'Ivanov';</label>
+                <label><input type="radio" name="q2" value="b"> SELECT COUNT(*) FROM employees;</label>
+                <label><input type="radio" name="q2" value="c"> SELECT * FROM employees ORDER BY department;</label>
+                <label><input type="radio" name="q2" value="d"> SELECT DISTINCT department FROM employees;</label>
+            </div>
+
+            <div class="question">
+                <h3>3. ¬ чем преимущество Bitmap Index Scan?</h3>
+                <label><input type="radio" name="q3" value="a"> ”меньшение использовани€ дискового пространства.</label>
+                <label><input type="radio" name="q3" value="b"> Ёффективна€ обработка запросов с несколькими услови€ми поиска.</label>
+                <label><input type="radio" name="q3" value="c"> ”меньшение времени выполнени€ последовательного сканировани€.</label>
+                <label><input type="radio" name="q3" value="d"> ”меньшение накладных расходов на обновление индексов.</label>
+            </div>
+
+            <div class="question">
+                <h3>4. ¬ каких случа€х используетс€ Index Only Scan?</h3>
+                <label><input type="radio" name="q4" value="a">  огда запрос требует доступ к данным, которые содержатс€ только в индексе.</label>
+                <label><input type="radio" name="q4" value="b">  огда требуетс€ последовательное сканирование всей таблицы.</label>
+                <label><input type="radio" name="q4" value="c">  огда требуетс€ комбинирование нескольких индексов.</label>
+                <label><input type="radio" name="q4" value="d">  огда запрос использует функцию агрегировани€.</label>
+            </div>
+
+            <div class="question">
+                <h3>5.  акие дополнительные накладные расходы св€заны с Index Only Scan?</h3>
+                <label><input type="radio" name="q5" value="a"> ќбновление битовых карт.</label>
+                <label><input type="radio" name="q5" value="b"> —оздание специальных индексов, занимающих дополнительное место на диске.</label>
+                <label><input type="radio" name="q5" value="c"> ”величение времени выполнени€ запросов с несколькими услови€ми поиска.</label>
+                <label><input type="radio" name="q5" value="d"> ѕовышенные накладные расходы на обновление таблиц.</label>
+            </div>
+
+            <button type="button" class="submit-btn" onclick="checkAnswers()">ѕроверить ответы</button>
+        </form>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            var form = document.getElementById('quizForm');
+            var resultDiv = document.getElementById('result');
+            var score = 0;
+
+            // ќтветы на вопросы
+            var answers = {
+                q1: 'b',
+                q2: 'a',
+                q3: 'b',
+                q4: 'a',
+                q5: 'b'
+            };
+
+            // ѕроверка ответов
+            for (var question in answers) {
+                var radios = form.elements[question];
+                for (var i = 0; i < radios.length; i++) {
+                    if (radios[i].checked && radios[i].value === answers[question]) {
+                        score++;
+                    }
+                }
+            }
+
+            // ¬ывод результата
+            resultDiv.innerHTML = '<h3>¬аш результат: ' + score + ' из 5</h3>';
+        }
+    </script>
+</body>
+</html>

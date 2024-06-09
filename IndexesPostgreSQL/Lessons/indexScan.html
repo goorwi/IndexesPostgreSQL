@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index Scan, Bitmap Index Scan и Index Only Scan в PostgreSQL</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Index Scan, Bitmap Index Scan и Index Only Scan в PostgreSQL</h1>
+
+        <h2>Index Scan</h2>
+        <p>Index Scan (сканирование индекса) — это метод доступа к данным в PostgreSQL, при котором сервер базы данных использует индекс для быстрого поиска нужных строк в таблице. Index Scan позволяет быстро находить данные по значению индекса, что значительно ускоряет выполнение запросов.</p>
+
+        <h3>Пример использования Index Scan</h3>
+
+        <h4>Создание таблицы и индекса</h4>
+        <pre><code>CREATE TABLE employees (
+    id SERIAL PRIMARY KEY,
+    last_name TEXT,
+    first_name TEXT,
+    department TEXT
+);
+
+CREATE INDEX idx_last_name ON employees (last_name);</code></pre>
+
+        <h4>Запрос с использованием Index Scan</h4>
+        <pre><code>EXPLAIN ANALYZE SELECT * FROM employees WHERE last_name = 'Ivanov';</code></pre>
+        <p>Вывод команды <code>EXPLAIN ANALYZE</code> покажет, что запрос использует Index Scan.</p>
+
+        <h3>Преимущества Index Scan</h3>
+        <ul>
+            <li><strong>Быстрота</strong>: Существенно ускоряет выполнение запросов по сравнению с последовательным сканированием.</li>
+            <li><strong>Эффективность для выборочных запросов</strong>: Оптимален для запросов, которые выбирают небольшое количество строк.</li>
+        </ul>
+
+        <h3>Недостатки Index Scan</h3>
+        <ul>
+            <li><strong>Накладные расходы на обновление</strong>: При вставке, обновлении или удалении данных индексы также должны быть обновлены, что может снизить производительность этих операций.</li>
+            <li><strong>Дополнительное место на диске</strong>: Индексы требуют дополнительного места для хранения.</li>
+        </ul>
+
+        <h2>Bitmap Index Scan</h2>
+        <p>Bitmap Index Scan (битовое сканирование индекса) — это метод доступа к данным, при котором PostgreSQL использует битовые карты для комбинирования результатов нескольких сканирований индексов. Это позволяет эффективно обрабатывать сложные запросы, которые используют несколько условий поиска.</p>
+
+        <h3>Пример использования Bitmap Index Scan</h3>
+
+        <h4>Создание таблицы и индексов</h4>
+        <pre><code>CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    total_amount NUMERIC
+);
+
+CREATE INDEX idx_customer_id ON orders (customer_id);
+CREATE INDEX idx_order_date ON orders (order_date);</code></pre>
+
+        <h4>Запрос с использованием Bitmap Index Scan</h4>
+        <pre><code>EXPLAIN ANALYZE SELECT * FROM orders 
+WHERE customer_id = 1 AND order_date > '2023-01-01';</code></pre>
+        <p>Вывод команды <code>EXPLAIN ANALYZE</code> покажет, что запрос использует Bitmap Index Scan.</p>
+
+        <h3>Преимущества Bitmap Index Scan</h3>
+        <ul>
+            <li><strong>Эффективность</strong>: Позволяет эффективно обрабатывать сложные запросы с несколькими условиями поиска.</li>
+            <li><strong>Комбинирование индексов</strong>: Уменьшает количество строк, которые нужно просканировать, путем создания битовой карты результатов.</li>
+        </ul>
+
+        <h3>Недостатки Bitmap Index Scan</h3>
+        <ul>
+            <li><strong>Дополнительные накладные расходы</strong>: Создание и обработка битовых карт требует дополнительных ресурсов.</li>
+        </ul>
+
+        <h2>Index Only Scan</h2>
+        <p>Index Only Scan (только сканирование индекса) — это метод доступа к данным, при котором PostgreSQL использует только данные индекса для выполнения запроса, без доступа к самой таблице. Это возможно, если все необходимые для запроса данные содержатся в индексе.</p>
+
+        <h3>Пример использования Index Only Scan</h3>
+
+        <h4>Создание таблицы и индекса</h4>
+        <pre><code>CREATE TABLE sales (
+    id SERIAL PRIMARY KEY,
+    product_id INT,
+    sale_date DATE,
+    amount NUMERIC
+);
+
+CREATE INDEX idx_product_id_sale_date ON sales (product_id, sale_date);</code></pre>
+
+        <h4>Запрос с использованием Index Only Scan</h4>
+        <pre><code>EXPLAIN ANALYZE SELECT product_id, sale_date FROM sales 
+WHERE product_id = 1;</code></pre>
+        <p>Вывод команды <code>EXPLAIN ANALYZE</code> покажет, что запрос использует Index Only Scan.</p>
+
+        <h3>Преимущества Index Only Scan</h3>
+        <ul>
+            <li><strong>Высокая производительность</strong>: Уменьшает количество чтений с диска, так как доступ к данным осуществляется только через индекс.</li>
+            <li><strong>Оптимизация</strong>: Повышает производительность для часто используемых запросов, где все необходимые данные содержатся в индексе.</li>
+        </ul>
+
+        <h3>Недостатки Index Only Scan</h3>
+        <ul>
+            <li><strong>Требования к индексу</strong>: Подходит только для запросов, где все необходимые данные содержатся в индексе.</li>
+            <li><strong>Дополнительное место на диске</strong>: Требуется создание специальных индексов, которые могут занимать дополнительное место.</li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hash Index в PostgreSQL</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Hash Index в PostgreSQL</h1>
+
+        <h2>Обзор Hash Index</h2>
+        <p>Hash Index — это структура индекса, используемая для быстрого поиска точных совпадений в базе данных PostgreSQL. Хэш-индексы хорошо подходят для операций равенства, но не поддерживают диапазонные запросы.</p>
+
+        <h2>Пример использования Hash Index</h2>
+
+        <h3>Создание таблицы и вставка данных</h3>
+        <pre><code>CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username TEXT,
+    email TEXT
+);
+
+INSERT INTO users (username, email) VALUES
+('user1', 'user1@example.com'),
+('user2', 'user2@example.com'),
+('user3', 'user3@example.com');</code></pre>
+
+        <h3>Создание Hash индекса</h3>
+        <pre><code>CREATE INDEX user_email_hash_idx ON users USING HASH (email);</code></pre>
+
+        <h3>Запрос с использованием Hash индекса</h3>
+        <pre><code>SELECT * FROM users WHERE email = 'user2@example.com';</code></pre>
+
+        <h2>Преимущества и недостатки Hash Index</h2>
+
+        <h3>Преимущества</h3>
+        <ul>
+            <li><strong>Быстрота</strong>: Очень быстрый поиск точных совпадений.</li>
+            <li><strong>Простота</strong>: Легко создается и используется для простых операций равенства.</li>
+        </ul>
+
+        <h3>Недостатки</h3>
+        <ul>
+            <li><strong>Ограниченная функциональность</strong>: Не поддерживает диапазонные запросы и многие другие типы запросов.</li>
+            <li><strong>Меньшая популярность</strong>: Ранее хэш-индексы имели ограничения в PostgreSQL, что делало их менее популярными по сравнению с B-tree.</li>
+        </ul>
+    </div>
+
+</body>
+</html>
