@@ -23,6 +23,7 @@ namespace IndexesPostgreSQL
             { "Составные индексы", "complex" },
             { "Частичные индексы", "partial" },
             { "Включённые индексы", "included" },
+            { "Заключение", "ending" },
         };
         private Panel menuPanel;
         private Button toggleMenuButton;
@@ -49,6 +50,8 @@ namespace IndexesPostgreSQL
         {
             lessonBrowser.Navigate(path + lessonType + ".html");
             Text = $"{lessons.Where(x => x.Value == lessonType).First().Key}";
+            if (lessonType == "introduction")
+                testButton.Visible = false;
         }
 
         private void Initializing()
@@ -195,8 +198,14 @@ namespace IndexesPostgreSQL
                             testButton.Text = "Эмуляция дерева";
                             break;
                         }
+                    case "introduction":
+                        {
+                            testButton.Visible = false;
+                            break;
+                        }
                     default:
                         {
+                            testButton.Visible = true;
                             testButton.Text = "Тест";
                             break;
                         }

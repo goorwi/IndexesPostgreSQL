@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заключительный тест по индексам в базах данных</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+            .question h3 {
+                margin-bottom: 10px;
+            }
+
+            .question label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+        .submit-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .submit-btn:hover {
+                background: #45a049;
+            }
+
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Заключительный тест по индексам в базах данных</h1>
+
+    <form id="quizForm">
+        <div class="question">
+            <h3>1. Зачем нужны индексы в базах данных?</h3>
+            <label><input type="radio" name="q1" value="a"> Для хранения копий данных таблицы.</label>
+            <label><input type="radio" name="q1" value="b"> Для ускорения выполнения запросов к базе данных.</label>
+            <label><input type="radio" name="q1" value="c"> Для создания дополнительных таблиц.</label>
+            <label><input type="radio" name="q1" value="d"> Для управления пользователями и ролями.</label>
+        </div>
+
+        <div class="question">
+            <h3>2. Какой метод сканирования используется в PostgreSQL, когда выполняется запрос без использования индекса?</h3>
+            <label><input type="radio" name="q2" value="a"> Sequence Scan</label>
+            <label><input type="radio" name="q2" value="b"> Index Scan</label>
+            <label><input type="radio" name="q2" value="c"> Bitmap Index Scan</label>
+            <label><input type="radio" name="q2" value="d"> Index Only Scan</label>
+        </div>
+
+        <div class="question">
+            <h3>3. В чем основное отличие между Sequence Scan и Index Scan в PostgreSQL?</h3>
+            <label><input type="radio" name="q3" value="a"> Sequence Scan всегда сканирует всю таблицу, в то время как Index Scan использует индекс для поиска конкретных записей.</label>
+            <label><input type="radio" name="q3" value="b"> Sequence Scan использует индекс для поиска, в то время как Index Scan сканирует всю таблицу.</label>
+            <label><input type="radio" name="q3" value="c"> Sequence Scan и Index Scan - это два разных метода создания индексов в PostgreSQL.</label>
+            <label><input type="radio" name="q3" value="d"> Sequence Scan и Index Scan - это одно и то же.</label>
+        </div>
+
+        <div class="question">
+            <h3>4. Какой оператор используется для создания индекса в PostgreSQL?</h3>
+            <label><input type="radio" name="q4" value="a"> CREATE INDEX</label>
+            <label><input type="radio" name="q4" value="b"> ADD INDEX</label>
+            <label><input type="radio" name="q4" value="c"> MAKE INDEX</label>
+            <label><input type="radio" name="q4" value="d"> INDEX</label>
+        </div>
+
+        <div class="question">
+            <h3>5. Какие преимущества имеет индекс с использованием оператора UNIQUE?</h3>
+            <label><input type="radio" name="q5" value="a"> Индекс с UNIQUE гарантирует уникальность значений и повышает производительность запросов SELECT.</label>
+            <label><input type="radio" name="q5" value="b"> Индекс с UNIQUE увеличивает затраты на обновление данных и требует больше места на диске.</label>
+            <label><input type="radio" name="q5" value="c"> Индекс с UNIQUE не имеет преимуществ перед другими типами индексов.</label>
+            <label><input type="radio" name="q5" value="d"> Индекс с UNIQUE не может быть создан в PostgreSQL.</label>
+        </div>
+
+        <div class="question">
+            <h3>6. Какой оператор используется для явного указания типа индекса в PostgreSQL?</h3>
+            <label><input type="radio" name="q6" value="a"> CREATE INDEX</label>
+            <label><input type="radio" name="q6" value="b"> USING</label>
+            <label><input type="radio" name="q6" value="c"> ASC</label>
+            <label><input type="radio" name="q6" value="d"> DESC</label>
+        </div>
+
+        <div class="question">
+            <h3>7. Какой метод создания индекса позволяет избежать блокировки таблицы для записи в PostgreSQL?</h3>
+            <label><input type="radio" name="q7" value="a"> Index Scan</label>
+            <label><input type="radio" name="q7" value="b"> Sequence Scan</label>
+            <label><input type="radio" name="q7" value="c"> Bitmap Index Scan</label>
+            <label><input type="radio" name="q7" value="d"> CONCURRENTLY</label>
+        </div>
+
+        <div class="question">
+            <h3>8. Какой тип индекса создается следующим запросом?</h3>
+            <pre><code>CREATE INDEX idx_name ON table_name (column1, column2) INCLUDE (column3);</code></pre>
+            <label><input type="radio" name="q8" value="a"> Простые индекс</label>
+            <label><input type="radio" name="q8" value="b"> Составные индекс</label>
+            <label><input type="radio" name="q8" value="c"> Частичные индекс</label>
+            <label><input type="radio" name="q8" value="d"> Индекс с включенными столбцами</label>
+        </div>
+
+        <div class="question">
+            <h3>9. Рассмотрите следующие записи в таблице <code>flights</code>:</h3>
+            <pre><code>ID | flight_no | departure_airport | arrival_airport | scheduled_departure
+1  | AB123     | JFK              | LAX              | 2024-06-10 10:00
+2  | AB124     | LAX              | JFK              | 2024-06-10 12:00
+3  | AB125     | JFK              | ORD              | 2024-06-10 14:00
+4  | AB126     | ORD              | LAX              | 2024-06-10 16:00
+5  | AB127     | JFK              | LAX              | 2024-06-10 18:00
+</code></pre>
+
+            <h3>Запрос:</h3>
+            <pre><code>SELECT * FROM flights WHERE departure_airport = 'JFK' ORDER BY scheduled_departure DESC;</code></pre>
+
+            <h3>Какой индекс лучше всего оптимизирует этот запрос?</h3>
+            <label>
+                <input type="radio" name="q9" value="a">
+                CREATE INDEX idx_flights_departure_airport ON flights(departure_airport);
+            </label>
+
+            <label>
+                <input type="radio" name="q9" value="b">
+                CREATE INDEX idx_flights_departure_and_arrival ON flights(departure_airport, arrival_airport);
+            </label>
+
+            <label>
+                <input type="radio" name="q9" value="c">
+                CREATE INDEX idx_flights_departure_scheduled ON flights(departure_airport, scheduled_departure);
+            </label>
+
+            <label>
+                <input type="radio" name="q9" value="d">
+                CREATE INDEX idx_flights_departure_scheduled_included ON flights(departure_airport) INCLUDE (scheduled_departure);
+            </label>
+        </div>
+
+        <div class="question">
+            <h3>10. Какой индекс оптимизирует следующий запрос, чтобы минимизировать время выполнения?</h3>
+            <pre><code>SELECT * FROM orders WHERE customer_id = 123 AND order_date > '2023-01-01';</code></pre>
+
+            <label><input type="radio" name="q10" value="a"> CREATE INDEX idx_customer_id ON orders(customer_id);</label><br>
+            <label><input type="radio" name="q10" value="b"> CREATE INDEX idx_order_date ON orders(order_date);</label><br>
+            <label><input type="radio" name="q10" value="c"> CREATE INDEX idx_customer_date ON orders(customer_id, order_date);</label><br>
+            <label><input type="radio" name="q10" value="d"> CREATE INDEX idx_date_customer ON orders(order_date, customer_id);</label>
+        </div>
+
+
+        <button type="button" class="submit-btn" onclick="checkAnswers()">Проверить ответы</button>
+    </form>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        function checkAnswers() {
+            var form = document.getElementById('quizForm');
+            var resultDiv = document.getElementById('result');
+            var score = 0;
+
+            // Ответы на вопросы
+            var answers = {
+                q1: 'b'
+            };
+
+            // Проверка ответов
+            for (var question in answers) {
+                var elements = form.elements[question];
+                if (elements) {
+                    for (var i = 0; i < elements.length; i++) {
+                        if (elements[i].checked && elements[i].value === answers[question]) {
+                            score++;
+                        }
+                    }
+                }
+            }
+
+            // Вывод результата
+            resultDiv.innerHTML = '<h3>Ваш результат: ' + score + ' из ' + (form.children.length - 1) + '</h3>';
+        }
+    </script>
+
+</body>
+</html>

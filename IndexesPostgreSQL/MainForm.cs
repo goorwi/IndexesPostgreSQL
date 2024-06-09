@@ -118,14 +118,14 @@ namespace IndexesPostgreSQL
             };
             btnLesson11.Click += (sender, e) => OpenLessonForm("included");
 
-            Button btnTest = new Button
+            Button btnLesson12 = new Button
             {
-                Text = "Тесты",
+                Text = "Заключение",
                 Location = new Point(20, btnLesson11.Location.Y + 35),
                 Size = new Size(this.ClientSize.Width - 40, 30),
                 Font = new Font("Times New Roman", 11)
             };
-            btnTest.Click += (sender, e) => OpenTestForm();
+            btnLesson12.Click += (sender, e) => OpenLessonForm("ending");
 
             // Добавление кнопок на форму
             this.Controls.Add(btnLesson1);
@@ -139,7 +139,7 @@ namespace IndexesPostgreSQL
             this.Controls.Add(btnLesson9);
             this.Controls.Add(btnLesson10);
             this.Controls.Add(btnLesson11);
-            this.Controls.Add(btnTest);
+            this.Controls.Add(btnLesson12);
         }
 
         private void OpenLessonForm(string lessonType)
@@ -151,12 +151,6 @@ namespace IndexesPostgreSQL
             {
                 this.Show();
             };
-        }
-
-        private void OpenTestForm()
-        {
-            //TestForm testForm = new TestForm();
-            //testForm.Show();
         }
     }
 }
