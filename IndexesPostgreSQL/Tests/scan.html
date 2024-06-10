@@ -5,9 +5,6 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-        }
-
-        .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
@@ -58,7 +55,7 @@
             </div>
 
             <div class="question">
-                <h3>2. Какие типы Index Scan существуют в PostgreSQL?</h3>
+                <h3>2. Какого типа индексного сканирования в PostgreSQL не существует?</h3>
                 <label><input type="radio" name="q2" value="a"> Standard Index Scan</label>
                 <label><input type="radio" name="q2" value="b"> Bitmap Index Scan</label>
                 <label><input type="radio" name="q2" value="c"> Index Only Scan</label>
@@ -82,11 +79,11 @@
             </div>
 
             <div class="question">
-                <h3>5. Какие недостатки имеет Index Scan?</h3>
-                <label><input type="radio" name="q5" value="a"> Накладные расходы на обновление индексов.</label>
-                <label><input type="radio" name="q5" value="b"> Дополнительное место на диске для хранения индексов.</label>
-                <label><input type="radio" name="q5" value="c"> Медлительность для выборочных запросов.</label>
-                <label><input type="radio" name="q5" value="d"> Неэффективность для выборки небольшого количества строк.</label>
+                <h3>5. Какие данные обычно содержатся в индексе PostgreSQL?</h3>
+                <label><input type="radio" name="q5" value="a"> Полная копия всех столбцов таблицы.</label>
+                <label><input type="radio" name="q5" value="b"> Значения ключевых столбцов, отсортированные в порядке возрастания или убывания.</label>
+                <label><input type="radio" name="q5" value="c"> Только идентификаторы строк таблицы.</label>
+                <label><input type="radio" name="q5" value="d"> Все вышеперечисленное.</label>
             </div>
 
             <button type="button" class="submit-btn" onclick="checkAnswers()">Проверить ответы</button>
@@ -104,10 +101,10 @@
             // Ответы на вопросы
             var answers = {
                 q1: 'd',
-                q2: 'b',
+                q2: 'd',
                 q3: 'd',
                 q4: 'a',
-                q5: 'a'
+                q5: 'b'
             };
 
             // Проверка ответов

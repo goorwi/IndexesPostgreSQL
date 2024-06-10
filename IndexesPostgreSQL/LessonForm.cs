@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -35,7 +34,7 @@ namespace IndexesPostgreSQL
         private Button nextButton;
         private bool isMenuVisible = false;
 
-        readonly string path = Directory.GetCurrentDirectory().Replace("bin\\Debug", "Lessons\\");
+        readonly string path = Application.StartupPath.Substring(0, Application.StartupPath.LastIndexOf("IndexesPostgreSQL") + "IndexesPostgreSQL".Length) + "\\Lessons\\";
         string lessonType;
         public LessonForm(string LessonType)
         {
@@ -277,7 +276,7 @@ namespace IndexesPostgreSQL
                     {
                         this.Hide();
                         // Navigate to the test page
-                        string testPath = Directory.GetCurrentDirectory().Replace("bin\\Debug", "Tests\\") + lessonType + ".html";
+                        string testPath = Application.StartupPath.Substring(0, Application.StartupPath.LastIndexOf("IndexesPostgreSQL") + "IndexesPostgreSQL".Length) + "\\Tests\\" + lessonType + ".html";
                         var lessonName = lessons.Where(x => x.Value == lessonType).First().Key;
                         TestForm test = new TestForm(testPath, lessonName);
                         test.Show();
