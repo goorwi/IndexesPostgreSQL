@@ -45,22 +45,6 @@ namespace IndexesPostgreSQL
             Text = $"Эмуляция дерева. {typeIndex}";
         }
 
-        public DrawBox DrawBox
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public BTree<object> BTree
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
         private void InitializeActions()
         {
             var font = new Font("Times New Roman", 12);
