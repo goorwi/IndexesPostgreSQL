@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -10,7 +9,7 @@ namespace IndexesPostgreSQL
 {
     public partial class LessonForm : Form
     {
-        private Dictionary<string, string> lessons = new Dictionary<string, string>()
+        private readonly Dictionary<string, string> lessons = new Dictionary<string, string>()
         {
             { "Введение", "introduction" },
             { "Сканирование", "scan" },
@@ -23,6 +22,7 @@ namespace IndexesPostgreSQL
             { "Составные индексы", "complex" },
             { "Частичные индексы", "partial" },
             { "Включённые индексы", "included" },
+            { "Заключение", "ending" },
         };
         private Panel menuPanel;
         private Button toggleMenuButton;
@@ -34,7 +34,7 @@ namespace IndexesPostgreSQL
         private Button nextButton;
         private bool isMenuVisible = false;
 
-        string path = Directory.GetCurrentDirectory().Replace("bin\\Debug", "Lessons\\");
+        readonly string path = Application.StartupPath.Substring(0, Application.StartupPath.LastIndexOf("IndexesPostgreSQL") + "IndexesPostgreSQL".Length) + "\\Lessons\\";
         string lessonType;
         public LessonForm(string LessonType)
         {
@@ -45,10 +45,28 @@ namespace IndexesPostgreSQL
             this.lessonsListBox.SelectedIndex = lessonsListBox.Items.IndexOf(lessons.Where(x => x.Value == lessonType).First().Key);
         }
 
+        public TestForm TestForm
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public BTreeEmulator BTreeEmulator
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         private void LessonForm_Load(object sender, EventArgs e)
         {
             lessonBrowser.Navigate(path + lessonType + ".html");
             Text = $"{lessons.Where(x => x.Value == lessonType).First().Key}";
+            if (lessonType == "introduction")
+                testButton.Visible = false;
         }
 
         private void Initializing()
@@ -92,9 +110,9 @@ namespace IndexesPostgreSQL
                 ColumnCount = 3,
                 RowCount = 1
             };
-            navigationPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
-            navigationPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
-            navigationPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            _ = navigationPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            _ = navigationPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            _ = navigationPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
 
             // Navigation buttons
             prevButton = new Button
@@ -169,7 +187,7 @@ namespace IndexesPostgreSQL
             if (selectedIndex >= 0)
             {
                 // Here, you would load the actual lesson content based on the selected index
-                lessons.TryGetValue(lessonsListBox.Items[selectedIndex].ToString(), out lessonType);
+                _ = lessons.TryGetValue(lessonsListBox.Items[selectedIndex].ToString(), out lessonType);
                 lessonBrowser.Navigate(path + lessonType + ".html");
                 Text = $"{lessonsListBox.Items[selectedIndex]}";
 
@@ -195,8 +213,22 @@ namespace IndexesPostgreSQL
                             testButton.Text = "Эмуляция дерева";
                             break;
                         }
+                    case "introduction":
+                        {
+                            prevButton.Visible = false;
+                            testButton.Visible = false;
+                            break;
+                        }
+                    case "ending":
+                        {
+                            nextButton.Visible = false;
+                            break;
+                        }
                     default:
                         {
+                            prevButton.Visible = true;
+                            testButton.Visible = true;
+                            nextButton.Visible = true;
                             testButton.Text = "Тест";
                             break;
                         }
@@ -226,25 +258,49 @@ namespace IndexesPostgreSQL
             {
                 case "simple":
                     {
+                        var tree = new BTreeEmulator("Простой индекс");
+                        tree.Show();
+                        tree.FormClosing += (s, arg) =>
+                        {
+                            this.Show();
+                        };
                         break;
                     }
                 case "complex":
                     {
+                        var tree = new BTreeEmulator("Составной индекс");
+                        tree.Show();
+                        tree.FormClosing += (s, arg) =>
+                        {
+                            this.Show();
+                        };
                         break;
                     }
                 case "partial":
                     {
+                        var tree = new BTreeEmulator("Частичный индекс");
+                        tree.Show();
+                        tree.FormClosing += (s, arg) =>
+                        {
+                            this.Show();
+                        };
                         break;
                     }
                 case "included":
                     {
+                        var tree = new BTreeEmulator("Включённый индекс");
+                        tree.Show();
+                        tree.FormClosing += (s, arg) =>
+                        {
+                            this.Show();
+                        };
                         break;
                     }
                 default:
                     {
                         this.Hide();
                         // Navigate to the test page
-                        string testPath = Directory.GetCurrentDirectory().Replace("bin\\Debug", "Tests\\") + lessonType + ".html";
+                        string testPath = Application.StartupPath.Substring(0, Application.StartupPath.LastIndexOf("IndexesPostgreSQL") + "IndexesPostgreSQL".Length) + "\\Tests\\" + lessonType + ".html";
                         var lessonName = lessons.Where(x => x.Value == lessonType).First().Key;
                         TestForm test = new TestForm(testPath, lessonName);
                         test.Show();
@@ -257,11 +313,6 @@ namespace IndexesPostgreSQL
             }
         }
 
-        private void Test_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void NextButton_Click(object sender, EventArgs e)
         {
             // Navigate to the next lesson
@@ -270,6 +321,5 @@ namespace IndexesPostgreSQL
                 lessonsListBox.SelectedIndex++;
             }
         }
-
     }
 }

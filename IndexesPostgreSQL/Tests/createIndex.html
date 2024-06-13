@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тест: Создание индекса и различные операторы</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+            .question h3 {
+                margin-bottom: 10px;
+            }
+
+            .question label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+        .submit-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .submit-btn:hover {
+                background: #45a049;
+            }
+
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Тест: Создание индекса и различные операторы</h1>
+
+        <form id="quizForm">
+            <div class="question">
+                <h3>1. Какой оператор используется для создания уникального индекса?</h3>
+                <label><input type="radio" name="q1" value="a"> ASC</label>
+                <label><input type="radio" name="q1" value="b"> DESC</label>
+                <label><input type="radio" name="q1" value="c"> UNIQUE</label>
+                <label><input type="radio" name="q1" value="d"> CONCURRENTLY</label>
+            </div>
+
+            <div class="question">
+                <h3>2. Что делает оператор CONCURRENTLY в PostgreSQL?</h3>
+                <label><input type="radio" name="q2" value="a"> Создает индекс в порядке убывания.</label>
+                <label><input type="radio" name="q2" value="b"> Создает индекс без блокировки таблицы для записи.</label>
+                <label><input type="radio" name="q2" value="c"> Создает уникальный индекс.</label>
+                <label><input type="radio" name="q2" value="d"> Указывает тип индекса.</label>
+            </div>
+
+            <div class="question">
+                <h3>3. Какой синтаксис используется для создания индекса в порядке убывания?</h3>
+                <label><input type="radio" name="q3" value="a"> CREATE INDEX index_name ON table_name (column_name) ASC;</label>
+                <label><input type="radio" name="q3" value="b"> CREATE INDEX index_name ON table_name (column_name) DESC;</label>
+                <label><input type="radio" name="q3" value="c"> CREATE INDEX index_name ON table_name (column_name) UNIQUE;</label>
+                <label><input type="radio" name="q3" value="d"> CREATE INDEX index_name ON table_name (column_name) CONCURRENTLY;</label>
+            </div>
+
+            <div class="question">
+                <h3>4. Какой оператор используется для указания типа индекса?</h3>
+                <label><input type="radio" name="q4" value="a"> CONCURRENTLY</label>
+                <label><input type="radio" name="q4" value="b"> UNIQUE</label>
+                <label><input type="radio" name="q4" value="c"> ASC</label>
+                <label><input type="radio" name="q4" value="d"> USING</label>
+            </div>
+
+            <div class="question">
+                <h3>5. Какие преимущества использования CONCURRENTLY?</h3>
+                <label><input type="radio" name="q5" value="a"> Создает индекс в порядке возрастания.</label>
+                <label><input type="radio" name="q5" value="b"> Минимизация блокировки таблицы для записи.</label>
+                <label><input type="radio" name="q5" value="c"> Гарантирует уникальность значений в индексируемом столбце.</label>
+                <label><input type="radio" name="q5" value="d"> Повышение производительности запросов SELECT по индексируемому столбцу.</label>
+            </div>
+
+            <button type="button" class="submit-btn" onclick="checkAnswers()">Проверить ответы</button>
+        </form>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            var form = document.getElementById('quizForm');
+            var resultDiv = document.getElementById('result');
+            var score = 0;
+
+            // Ответы на вопросы
+            var answers = {
+                q1: 'c',
+                q2: 'b',
+                q3: 'b',
+                q4: 'd',
+                q5: 'b'
+            };
+
+            // Проверка ответов
+            for (var question in answers) {
+                var elements = form.elements[question];
+                if (elements) {
+                    for (var i = 0; i < elements.length; i++) {
+                        if (elements[i].checked && elements[i].value === answers[question]) {
+                            score++;
+                        }
+                    }
+                }
+            }
+
+            // Вывод результата
+            resultDiv.innerHTML = '<h3>Ваш результат: ' + score + ' из ' + (form.children.length - 1) + '</h3>';
+        }
+    </script>
+</body>
+</html>

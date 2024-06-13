@@ -12,6 +12,14 @@ namespace IndexesPostgreSQL
             InitializeButtons();
         }
 
+        public LessonForm LessonForm
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             welcomeLabel.Location = new Point(this.ClientSize.Width / 2 - welcomeLabel.Size.Width / 2, welcomeLabel.Location.Y + 10);
@@ -118,28 +126,17 @@ namespace IndexesPostgreSQL
             };
             btnLesson11.Click += (sender, e) => OpenLessonForm("included");
 
-            Button btnTest = new Button
+            Button btnLesson12 = new Button
             {
-                Text = "Тесты",
+                Text = "Заключение",
                 Location = new Point(20, btnLesson11.Location.Y + 35),
                 Size = new Size(this.ClientSize.Width - 40, 30),
                 Font = new Font("Times New Roman", 11)
             };
-            btnTest.Click += (sender, e) => OpenTestForm();
+            btnLesson12.Click += (sender, e) => OpenLessonForm("ending");
 
             // Добавление кнопок на форму
-            this.Controls.Add(btnLesson1);
-            this.Controls.Add(btnLesson2);
-            this.Controls.Add(btnLesson3);
-            this.Controls.Add(btnLesson4);
-            this.Controls.Add(btnLesson5);
-            this.Controls.Add(btnLesson6);
-            this.Controls.Add(btnLesson7);
-            this.Controls.Add(btnLesson8);
-            this.Controls.Add(btnLesson9);
-            this.Controls.Add(btnLesson10);
-            this.Controls.Add(btnLesson11);
-            this.Controls.Add(btnTest);
+            this.Controls.AddRange(new Control[] { btnLesson1, btnLesson2, btnLesson2, btnLesson3, btnLesson4, btnLesson5, btnLesson6, btnLesson7, btnLesson8, btnLesson9, btnLesson10, btnLesson11, btnLesson12 });
         }
 
         private void OpenLessonForm(string lessonType)
@@ -151,12 +148,6 @@ namespace IndexesPostgreSQL
             {
                 this.Show();
             };
-        }
-
-        private void OpenTestForm()
-        {
-            //TestForm testForm = new TestForm();
-            //testForm.Show();
         }
     }
 }

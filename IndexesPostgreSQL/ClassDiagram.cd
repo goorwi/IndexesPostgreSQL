@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="IndexesPostgreSQL.MainForm">
+    <Position X="6.25" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAAAAAAAACDEAACAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>MainForm.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="LessonForm" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IndexesPostgreSQL.LessonForm">
+    <Position X="8.75" Y="6" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AIAIARAAQGIEAAAAADCGAABCFAAMABIgIQAAAAAAAAA=</HashCode>
+      <FileName>LessonForm.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TestForm" />
+      <Property Name="BTreeEmulator" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IndexesPostgreSQL.TestForm">
+    <Position X="6.25" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQCAAAIAIAACAAAACAAAAQBAAAAAAAAAAAAA=</HashCode>
+      <FileName>TestForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IndexesPostgreSQL.BTreeEmulator">
+    <Position X="12.25" Y="1.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AFMUBAiIkCEgiEQYBAWIkIFCAAQB5ABAoAAAQUIYAEE=</HashCode>
+      <FileName>BTree\BTreeEmulator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DrawBox" />
+      <Property Name="BTree" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IndexesPostgreSQL.BTree&lt;T&gt;">
+    <Position X="15.5" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAGQAAAgAgAAAAAAABIBAAhAACQAEAAEIAABgEAQ=</HashCode>
+      <FileName>BTree\BTreeStructure\BTree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IndexesPostgreSQL.DrawBox">
+    <Position X="9.5" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>QACAAAAAACAAAAAAAACAAAACAACQAAAABAAgAAAEAAA=</HashCode>
+      <FileName>BTree\DrawBox\DrawBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
