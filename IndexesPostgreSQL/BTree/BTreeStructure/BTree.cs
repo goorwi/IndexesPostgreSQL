@@ -199,7 +199,7 @@ namespace IndexesPostgreSQL
             }
 
             // Проверяем баланс текущего узла
-            if (node.Childs[idx].Keys.Count < Order)
+            if (node.Childs[idx].Keys.Count == 0 || node.Childs[idx].Keys.Count >= Order)
             {
                 Fill(node, idx);
             }
@@ -218,23 +218,6 @@ namespace IndexesPostgreSQL
                     node.Keys.Add(node.Childs[i].Keys[0]);
                 }
             }
-        }
-
-        private void SplitLeaf(Node<T> node, int idx)
-        {
-            int order = Order;
-            Node<T> y = node.Childs[idx];
-            Node<T> z = new Node<T>(order, true);
-
-            // Переместить половину ключей из y в z
-            z.Keys.AddRange(y.Keys.GetRange(order - 1, y.Keys.Count - (order - 1)));
-            y.Keys.RemoveRange(order - 1, y.Keys.Count - (order - 1));
-
-            // Вставить новый лист z после y
-            node.Childs.Insert(idx + 1, z);
-
-            // Обновить ключи в родительском узле
-            //node.Keys.Insert(idx, z.Keys[0]);
         }
 
         private void Fill(Node<T> node, int idx)

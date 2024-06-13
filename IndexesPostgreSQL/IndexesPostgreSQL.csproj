@@ -70,11 +70,11 @@
     <Compile Include="BTree\BTreeEmulator.Designer.cs">
       <DependentUpon>BTreeEmulator.cs</DependentUpon>
     </Compile>
-    <Compile Include="BTree\BTreeStructure\BaseTree.cs" />
+    <Compile Include="BTree\DrawBox\BaseTree.cs" />
     <Compile Include="BTree\BTreeStructure\BTree.cs" />
     <Compile Include="BTree\BTreeStructure\ITree.cs" />
     <Compile Include="BTree\BTreeStructure\Node.cs" />
-    <Compile Include="BTree\BTreeStructure\NodeInfo.cs" />
+    <Compile Include="BTree\DrawBox\NodeInfo.cs" />
     <Compile Include="BTree\DrawBox\DrawBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -136,6 +136,7 @@
     <EmbeddedResource Include="TestForm.resx">
       <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ClassDiagram.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

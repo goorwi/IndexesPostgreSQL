@@ -45,6 +45,22 @@ namespace IndexesPostgreSQL
             Text = $"Эмуляция дерева. {typeIndex}";
         }
 
+        public DrawBox DrawBox
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public BTree<object> BTree
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         private void InitializeActions()
         {
             var font = new Font("Times New Roman", 12);
@@ -102,29 +118,34 @@ namespace IndexesPostgreSQL
             firstInsertBox = CreateTextBox(new Point(10, 10), font, 0);
             firstInsertBox.KeyPress += insertBox_KeyPress;
             insertButton = CreateButton(new Point(firstInsertBox.Right + 10, 10), font, "Вставить", 1, insertButton_Click);
-            firstDeleteBox = CreateTextBox(new Point(insertButton.Right + 10, 10), font, 2);
-            firstDeleteBox.KeyPress += deleteBox_KeyPress;
-            deleteButton = CreateButton(new Point(firstDeleteBox.Right + 10, 10), font, "Удалить", 3, deleteButton_Click);
-            minValueCondition = CreateTextBox(new Point(deleteButton.Right + 10, 10), font, 5);
+            minValueCondition = CreateTextBox(new Point(insertButton.Right + 10, 10), font, 5);
+            minValueCondition.Enter += RemovePlaceholderText;
+            minValueCondition.Leave += SetPlaceholderText;
             minValueCondition.KeyPress += insertBox_KeyPress;
             labelCondition = CreateLabel(new Point(minValueCondition.Right + 10, 10), font, "<= (элемент) <=", 6);
             maxValueCondition = CreateTextBox(new Point(labelCondition.Right + 25, 10), font, 7);
+            maxValueCondition.Enter += RemovePlaceholderText;
+            maxValueCondition.Leave += SetPlaceholderText;
             maxValueCondition.KeyPress += insertBox_KeyPress;
-            uniqueButton = CreateRadioButton(new Point(maxValueCondition.Right + 10, 10), font, "Уникальные значения", 4);
+            firstDeleteBox = CreateTextBox(new Point(maxValueCondition.Right + 10, 10), font, 2);
+            firstDeleteBox.KeyPress += deleteBox_KeyPress;
+            firstDeleteBox.Enabled = false;
+            deleteButton = CreateButton(new Point(firstDeleteBox.Right + 10, 10), font, "Удалить", 3, deleteButton_Click);
+            deleteButton.Enabled = false;
+            uniqueButton = CreateRadioButton(new Point(deleteButton.Right + 10, 10), font, "Уникальные значения", 4);
             clearTreeButton = CreateButton(new Point(actionPanel.Right - 100 - 10, 10), font, "Сбросить", 8, clearTreeButton_Click);
 
             actionPanel.Controls.AddRange(new Control[] { firstInsertBox, insertButton, firstDeleteBox, deleteButton, uniqueButton, minValueCondition, labelCondition, maxValueCondition, clearTreeButton });
+
+            SetPlaceholderText(minValueCondition, null);
+            SetPlaceholderText(maxValueCondition, null);
         }
 
         private void InitializeIncludedIndexControls(Font font)
         {
             firstInsertBox = CreateTextBox(new Point(10, 10), font, 0);
             firstInsertBox.KeyPress += insertBox_KeyPress;
-            insertButton = CreateButton(new Point(firstInsertBox.Right + 10, 10), font, "Вставить", 1, insertButton_Click);
-            firstDeleteBox = CreateTextBox(new Point(insertButton.Right + 10, 10), font, 2);
-            firstDeleteBox.KeyPress += deleteBox_KeyPress;
-            deleteButton = CreateButton(new Point(firstDeleteBox.Right + 10, 10), font, "Удалить", 3, deleteButton_Click);
-            firstField = CreateTextBox(new Point(deleteButton.Right + 10, 10), font, 0, 150);
+            firstField = CreateTextBox(new Point(firstInsertBox.Right + 10, 10), font, 0, 150);
             firstField.KeyPress += insertBox_KeyPress;
             firstField.Enter += RemovePlaceholderText;
             firstField.Leave += SetPlaceholderText;
@@ -132,7 +153,14 @@ namespace IndexesPostgreSQL
             secondField.KeyPress += insertBox_KeyPress;
             secondField.Enter += RemovePlaceholderText;
             secondField.Leave += SetPlaceholderText;
-            showField = CreateTextBox(new Point(secondField.Right + 10, 10), font, 0);
+            insertButton = CreateButton(new Point(secondField.Right + 10, 10), font, "Вставить", 1, insertButton_Click);
+            firstDeleteBox = CreateTextBox(new Point(insertButton.Right + 10, 10), font, 2);
+            firstDeleteBox.KeyPress += deleteBox_KeyPress;
+            firstDeleteBox.Enabled = false;
+            deleteButton = CreateButton(new Point(firstDeleteBox.Right + 10, 10), font, "Удалить", 3, deleteButton_Click);
+            deleteButton.Enabled = false;
+            showField = CreateTextBox(new Point(deleteButton.Right + 10, 10), font, 0);
+            showField.Enabled = false;
             showField.KeyPress += (s, k) =>
             {
                 if (k.KeyChar == (char)Keys.Enter)
@@ -142,6 +170,7 @@ namespace IndexesPostgreSQL
                 }
             };
             showButton = CreateButton(new Point(showField.Right + 10, 10), font, "Показать", 3, ShowButton_Click);
+            showButton.Enabled = false;
             uniqueButton = CreateRadioButton(new Point(showButton.Right + 10, 10), font, "Уникальные значения", 4);
             clearTreeButton = CreateButton(new Point(actionPanel.Right - 100 - 10, 10), font, "Сбросить", 5, clearTreeButton_Click);
             includedPanel = CreatePanel(new Size(150, this.ClientSize.Height - actionPanel.Height), DockStyle.Left);
@@ -201,22 +230,44 @@ namespace IndexesPostgreSQL
 
         private void RemovePlaceholderText(object sender, EventArgs e)
         {
-            if (sender is TextBox textBox && textBox.ForeColor == Color.Gray)
+            if (typeIndex == "Частичный индекс")
             {
-                textBox.Text = string.Empty;
-                textBox.ForeColor = Color.Black;
+                if (sender is TextBox textBox && textBox.ForeColor == Color.Gray)
+                {
+                    textBox.Text = string.Empty;
+                    textBox.ForeColor = Color.Black;
+                }
+            }
+            else if (typeIndex == "Включённый индекс")
+            {
+                if (sender is TextBox textBox && textBox.ForeColor == Color.Gray)
+                {
+                    textBox.Text = string.Empty;
+                    textBox.ForeColor = Color.Black;
+                }
             }
         }
 
         private void SetPlaceholderText(object sender, EventArgs e)
         {
-            if (sender is TextBox textBox && string.IsNullOrEmpty(textBox.Text))
+            if (typeIndex == "Частичный индекс")
             {
-                textBox.ForeColor = Color.Gray;
-                if (textBox == firstField)
+                if (sender is TextBox textBox && string.IsNullOrEmpty(textBox.Text))
+                {
+                    textBox.ForeColor = Color.Gray;
+                    if (textBox == minValueCondition)
+                        textBox.Text = "min";
+                    else if (textBox == maxValueCondition)
+                        textBox.Text = "max";
+                }
+            }
+            else if (typeIndex == "Включённый индекс")
+            {
+                if (sender is TextBox textBox && string.IsNullOrEmpty(textBox.Text))
+                {
+                    textBox.ForeColor = Color.Gray;
                     textBox.Text = "Включённое поле";
-                else if (textBox == secondField)
-                    textBox.Text = "Включённое поле";
+                }
             }
         }
 
@@ -433,6 +484,8 @@ namespace IndexesPostgreSQL
                                     PartialTree = CreateTree<PartialIndexValue>();
                                     minValueCondition.Enabled = false; maxValueCondition.Enabled = false;
                                     uniqueButton.Enabled = false;
+                                    firstDeleteBox.Enabled = true;
+                                    deleteButton.Enabled = true;
                                 }
                                 var value = new PartialIndexValue(main);
                                 PartialTree.Insert(value);
@@ -494,6 +547,10 @@ namespace IndexesPostgreSQL
                         {
                             IncludedTree = CreateTree<IncludedIndexValue>();
                             uniqueButton.Enabled = false;
+                            firstDeleteBox.Enabled = true;
+                            deleteButton.Enabled = true;
+                            showField.Enabled = true;
+                            showButton.Enabled = true;
                         }
                         var value = new IncludedIndexValue(val, first, second);
                         IncludedTree.Insert(value);
@@ -520,6 +577,9 @@ namespace IndexesPostgreSQL
                             secondField.Text = "";
                             _ = firstInsertBox.Focus();
                         }
+
+                        SetPlaceholderText(firstField, null);
+                        SetPlaceholderText(secondField, null);
 
                         break;
                     }
@@ -749,6 +809,8 @@ namespace IndexesPostgreSQL
                         isCreatedTree = false;
                         firstInsertBox.Text = "";
                         firstDeleteBox.Text = "";
+                        firstDeleteBox.Enabled = false;
+                        deleteButton.Enabled = false;
                         minValueCondition.Text = "";
                         minValueCondition.Enabled = true;
                         maxValueCondition.Text = "";
@@ -778,9 +840,13 @@ namespace IndexesPostgreSQL
 
                         firstInsertBox.Text = "";
                         firstDeleteBox.Text = "";
+                        firstDeleteBox.Enabled = false;
+                        deleteButton.Enabled = false;
                         firstField.Text = "";
                         secondField.Text = "";
                         showField.Text = "";
+                        showField.Enabled = false;
+                        showButton.Enabled = false;
                         SetPlaceholderText(firstField, null);
                         SetPlaceholderText(secondField, null);
 

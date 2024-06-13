@@ -45,6 +45,22 @@ namespace IndexesPostgreSQL
             this.lessonsListBox.SelectedIndex = lessonsListBox.Items.IndexOf(lessons.Where(x => x.Value == lessonType).First().Key);
         }
 
+        public TestForm TestForm
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public BTreeEmulator BTreeEmulator
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         private void LessonForm_Load(object sender, EventArgs e)
         {
             lessonBrowser.Navigate(path + lessonType + ".html");
@@ -199,12 +215,20 @@ namespace IndexesPostgreSQL
                         }
                     case "introduction":
                         {
+                            prevButton.Visible = false;
                             testButton.Visible = false;
+                            break;
+                        }
+                    case "ending":
+                        {
+                            nextButton.Visible = false;
                             break;
                         }
                     default:
                         {
+                            prevButton.Visible = true;
                             testButton.Visible = true;
+                            nextButton.Visible = true;
                             testButton.Text = "Тест";
                             break;
                         }

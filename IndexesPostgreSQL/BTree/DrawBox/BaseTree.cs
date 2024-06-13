@@ -96,26 +96,6 @@ namespace IndexesPostgreSQL
             }
         }
 
-        protected Node<T> GetMinValueNode(Node<T> root)
-        {
-            Node<T> currentNode = root;
-            while (currentNode != null && !currentNode.IsLeaf)
-            {
-                currentNode = currentNode.Childs[0];
-            }
-            return currentNode;
-        }
-
-        protected Node<T> GetMaxValueNode(Node<T> root)
-        {
-            Node<T> currentNode = root;
-            while (currentNode != null && !currentNode.IsLeaf)
-            {
-                currentNode = currentNode.Childs[currentNode.KeyCount];
-            }
-            return currentNode;
-        }
-
         public TreeConfiguration GetConfiguration()
         {
             return configuration;
